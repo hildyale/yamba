@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Yamba1-Grupo7</string>
+    <string name="action_settings">Opciones</string>
+    <string name="status_button_tweet">Tweet</string>
+    <string name="status_text_hint">que esta pasando?</string>
+    <string name="tweet">Tweet</string>
+    <string name="username">Usuario</string>
+    <string name="username_summary">cual es tu usuario?</string>
+    <string name="password">Contraseña</string>
+    <string name="password_summary">Como te conectaste?</string>
+    <string name="status_update">Actulizar estado</string>
+
+</resources>
