@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Yamba</string>
-    <string name="activity_name">Yamba2-Grupo7</string>
+    <string name="activity_name">Yamba3-Grupo7</string>
     <string name="action_settings">Opciones</string>
     <string name="status_button_tweet">Tweet</string>
     <string name="status_text_hint">que esta pasando?</string>
