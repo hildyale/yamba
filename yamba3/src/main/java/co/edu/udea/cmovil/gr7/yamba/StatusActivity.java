@@ -1,31 +1,13 @@
 package co.edu.udea.cmovil.gr7.yamba;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-import com.thenewcircle.yamba.client.YambaClient;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 
 
+public class StatusActivity extends SubActivity {
 
-
-
-
-public class StatusActivity extends Activity {
-
-    private static final String TAG = StatusActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +23,6 @@ public class StatusActivity extends Activity {
             fragmentTransaction.commit();
         }
     }
-    //--------------------------------------------------------------------------------
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_yamba, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    //---------------------------------------------------------------------------------
-
 
 
 }

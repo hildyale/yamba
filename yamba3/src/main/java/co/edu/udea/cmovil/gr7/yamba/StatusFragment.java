@@ -1,25 +1,23 @@
 package co.edu.udea.cmovil.gr7.yamba;
 
-import android.app.Activity;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.thenewcircle.yamba.client.YambaClient;
@@ -110,8 +108,8 @@ public class StatusFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            progress = ProgressDialog.show(getActivity(), "Posting",
-                    "Please wait...");
+            progress = ProgressDialog.show(getActivity(), getString(R.string.posting),
+                    getString(R.string.wait));
             progress.setCancelable(true);
         }
 
@@ -121,18 +119,25 @@ public class StatusFragment extends Fragment {
             try {
                 SharedPreferences prefs = PreferenceManager
                         .getDefaultSharedPreferences(getActivity());
-                String username = prefs.getString("username", "student");
-                String password = prefs.getString("password", "password");
+                String username = prefs.getString("username", "");
+                String password = prefs.getString("password", "");
+
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                    getActivity().startActivity(
+                            new Intent(getActivity(), SettingsActivity.class));
+                    return getString(R.string.update);
+                }
+
 
                 YambaClient cloud = new YambaClient(username, password);
                 cloud.postStatus(params[0]);
 
-                Log.d(TAG, "Successfully posted to the cloud: " + params[0]);
-                return "Successfully posted";
+                Log.d(TAG, getString(R.string.goodposting)+" : " + params[0]);
+                return getString(R.string.goodposting);
             } catch (Exception e) {
-                Log.e(TAG, "Failed to post to the cloud", e);
+                Log.e(TAG, getString(R.string.badposting), e);
                 e.printStackTrace();
-                return "Failed to post";
+                return getString(R.string.badposting);
             }
         }
 
