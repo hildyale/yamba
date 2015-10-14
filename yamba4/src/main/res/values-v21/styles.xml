@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="windows">#e3f2fd</color>
+    <color name="teal">#e0f2f1</color>
+    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">#2196f3</item>
+        <item name="android:colorPrimaryDark">#0d47a1</item>
+        <item name="android:colorAccent">#bbdefb</item>
+        <item name="android:colorButtonNormal">#64b5f6</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#64b5f6</item>
+        <item name="android:windowBackground">@color/windows</item>
+    </style>
+
+    <style name="teal" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">#26a69a</item>
+        <item name="android:colorPrimaryDark">#004d40</item>
+        <item name="android:colorAccent">#b2dfdb</item>
+        <item name="android:colorButtonNormal">#80cbc4</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#004d40</item>
+        <item name="android:windowBackground">@color/teal</item>
+    </style>
+
+</resources>
