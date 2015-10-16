@@ -57,6 +57,7 @@ public class RefreshService extends IntentService {
             isEmpty = true;
             return;
         } //Verificar que no hayan campos vacíos
+
         DbHelper dbHelper= new DbHelper(this);//Instancia de DbHelper
         SQLiteDatabase db=dbHelper.getWritableDatabase();//Obtener instancia de BD
         ContentValues values = new ContentValues();
@@ -64,8 +65,7 @@ public class RefreshService extends IntentService {
         YambaClient cloud = new YambaClient(username, password); /*Se crea un nuevo
     cliente yamba*/
         try {
-            List<YambaStatus> timeline = cloud.getTimeline(20); /* Obtener linea de
-       tiempo, los últimos 20 estados*/
+            List<YambaStatus> timeline = cloud.getTimeline(20); /* Obtener linea de tiempo, los últimos 20 estados*/
             for (YambaStatus status : timeline) { //
                 Log.d(TAG,
                         String.format("%s: %s", status.getUser(), status.getMessage())); //Imprimir estados en consola
@@ -108,7 +108,11 @@ public class RefreshService extends IntentService {
     public void onDestroy(){
         super.onDestroy();
         if(isEmpty){
-            Toast.makeText(this, "Please update your username and password", Toast.LENGTH_LONG).show();
+            Intent i = new Intent();
+            i.setClass(this, SettingsActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            Toast.makeText(this, getString(R.string.update), Toast.LENGTH_LONG).show();
             isEmpty=false;
         }
         Log.d(TAG, "onDestroyed");
