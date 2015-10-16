@@ -1,8 +1,10 @@
 package co.edu.udea.cmovil.gr7.yamba;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -55,6 +57,9 @@ public class RefreshService extends IntentService {
             isEmpty = true;
             return;
         } //Verificar que no hayan campos vacíos
+        DbHelper dbHelper= new DbHelper(this);//Instancia de DbHelper
+        SQLiteDatabase db=dbHelper.getWritableDatabase();//Obtener instancia de BD
+        ContentValues values = new ContentValues();
 
         YambaClient cloud = new YambaClient(username, password); /*Se crea un nuevo
     cliente yamba*/
@@ -64,6 +69,16 @@ public class RefreshService extends IntentService {
             for (YambaStatus status : timeline) { //
                 Log.d(TAG,
                         String.format("%s: %s", status.getUser(), status.getMessage())); //Imprimir estados en consola
+                values.clear();
+                values.put(StatusContract.Column.ID, status.getId());
+                values.put(StatusContract.Column.USER,
+                        status.getUser());
+                values.put(StatusContract.Column.MESSAGE,
+                        status.getMessage());
+                values.put(StatusContract.Column.CREATED_AT, status
+                .getCreatedAt().getTime());
+                db.insertWithOnConflict(StatusContract.TABLE, null, values,
+                        SQLiteDatabase.CONFLICT_IGNORE);
             }
         } catch (YambaClientException e) { //
             Log.e(TAG, "Failed to fetch the timeline", e);

@@ -40,13 +40,6 @@ public class MainActivity extends Activity {
             case R.id.action_refresh:
                 startService(new Intent(this, RefreshService.class));
                 return true;
-            case R.id.salir:
-                finish();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
             default:
                 return false;
         }
