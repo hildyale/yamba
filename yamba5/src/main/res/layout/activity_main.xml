@@ -6,6 +6,14 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="co.edu.udea.cmovil.gr7.yamba.MainActivity">
 
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="co.edu.udea.cmovil.gr7.yamba.listFragment"
+        android:id="@+id/fragment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp">
 
+    </fragment>
 
 </RelativeLayout>

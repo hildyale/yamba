@@ -32,10 +32,20 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name=".StatusProvider"
+            android:authorities="co.edu.udea.cmovil.gr7.yamba.StatusProvider"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
+
         <service
             android:name=".RefreshService"
             android:exported="false" >
         </service>
+
+        <activity android:name=".SubActivity" >
+        </activity>
     </application>
 
 </manifest>
