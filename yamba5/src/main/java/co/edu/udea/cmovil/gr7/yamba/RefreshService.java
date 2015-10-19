@@ -67,8 +67,8 @@ public class RefreshService extends IntentService {
     cliente yamba*/
         try {
             List<YambaStatus> timeline = cloud.getTimeline(20); /* Obtener linea de tiempo, los últimos 20 estados*/
-            for (YambaStatus status : timeline) { //
-                //Log.d(TAG, String.format("%s: %s", status.getUser(), status.getMessage())); //Imprimir estados en consola
+            for (YambaStatus status : timeline) {
+                Log.d(TAG, String.format("%s: %s", status.getUser(), status.getMessage())); //Imprimir estados en consola
                 values.clear();
                 values.put(StatusContract.Column.ID, status.getId());
                 values.put(StatusContract.Column.USER,status.getUser());

@@ -1,94 +1,97 @@
 package co.edu.udea.cmovil.gr7.yamba;
 
-import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
+
+import android.content.ContentResolver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.DateUtils;
+import android.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
-public class listFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = listFragment.class.getSimpleName();
-    private static final String[] FROM = { StatusContract.Column.USER,StatusContract.Column.MESSAGE, StatusContract.Column.CREATED_AT};
-    private static final int[] TO = { R.id.list_user,R.id.list_message, R.id.list_created_at};
-    private static final int LOADER_ID = 42;
-    private SimpleCursorAdapter mAdapter;
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class listFragment extends Fragment {
 
-    static final SimpleCursorAdapter.ViewBinder VIEW_BINDER = new SimpleCursorAdapter.ViewBinder() {
-        @Override
-        public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-            long timestamp;
-            switch (view.getId()) {
-                case R.id.list_created_at:
-                    timestamp = cursor.getLong(columnIndex);
-                    CharSequence relTime = DateUtils.getRelativeTimeSpanString(timestamp);
-                    ((TextView) view).setText(relTime);
-                    return true;
-                case R.id.list_item_content:
-                    timestamp = cursor.getLong(columnIndex);
-                    //((FreshnessView) view).setTimestamp(timestamp);
-                    return true;
-                default:
-                    return false;
-            }
+    private ListView lista;
+    String[] users;
+    String[] messages;
+    String[] created;
+
+    public static listFragment newInstance() {
+        listFragment fragment = new listFragment();
+        return fragment;
+    }
+
+    public listFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        records();
+        int[] TO = { R.id.list_user,R.id.list_message, R.id.list_created_at};
+        lista = (ListView) inflater.inflate(R.layout.lista, container, false);
+        /*lista.setAdapter(new ArrayAdapter<String>(
+                getActivity().getActionBar().getThemedContext(),
+                R.layout.list_item,
+                R.id.list_message,
+                messages));*/
+        lista.setAdapter(new Adapter(
+                getActivity().getActionBar().getThemedContext(),
+                users,
+                messages,
+                created));
+        return lista;
+    }
+
+    public void records(){
+
+        Uri CONTENT_URI = StatusContract.CONTENT_URI;
+        String USER = StatusContract.Column.USER;
+        String MESSAGE = StatusContract.Column.MESSAGE;
+        String CREATED_AT = StatusContract.Column.CREATED_AT;
+
+        ContentResolver contentResolver = getActivity().getActionBar().getThemedContext().getContentResolver();
+
+        Cursor cursor = contentResolver.query(CONTENT_URI, null, null, null, null);
+
+        users = new String[cursor.getCount()];
+        messages = new String[cursor.getCount()];
+        created = new String[cursor.getCount()];
+        int i=0;
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+
+                String user = cursor.getString(cursor.getColumnIndex(USER));
+                String message = cursor.getString(cursor.getColumnIndex(MESSAGE));
+                String created_at = cursor.getString(cursor.getColumnIndex(CREATED_AT));
+
+                users[i] = user;
+                Log.d("USER",user);
+                messages[i] = message;
+                Log.d("MESSAGE",message);
+                created[i] = created_at;
+                Log.d("CREATED",created_at);
+
+                i++;
+                }
+        }else{
+            Log.d("ContentProvider", "Cursor:" + cursor.getCount());
+
         }
-    };
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list,
-                null, FROM, TO, 0);
-        mAdapter.setViewBinder((SimpleCursorAdapter.ViewBinder) VIEW_BINDER);
-        setListAdapter(mAdapter);
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        /*DetailsFragment fragment = (DetailsFragment) getFragmentManager().findFragmentById(R.layout.fragment_details); //
-        if (fragment != null && fragment.isVisible()) {
-            fragment.updateView(id);
-        } else {
-            startActivity(new Intent(getActivity(), DetailsActivity.class)
-                    .putExtra(StatusContract.Column.ID, id));
-        }*/
-    }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id != LOADER_ID)
-            return null;
-        Log.d(TAG, "onCreateLoader");
-        return new CursorLoader(getActivity(), StatusContract.CONTENT_URI,
-                null, null, null, StatusContract.DEFAULT_SORT);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        /*
-        DetailsFragment fragment = (DetailsFragment) getFragmentManager().findFragmentById(R.layout.fragment_details);
-        if (fragment != null && fragment.isVisible() && cursor.getCount()
-                == 0) {
-            fragment.updateView(-1);
-            Toast.makeText(getActivity(), "No data",
-                    Toast.LENGTH_LONG).show();
-        }
-        Log.d(TAG, "onLoadFinished with cursor: " + cursor.getCount());
-        mAdapter.swapCursor(cursor);
-        */
-    }
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mAdapter.swapCursor(null);
-    }
 
 }
