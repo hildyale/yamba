@@ -1,1 +1,1 @@
-include ':yamba1', ':yamba2', ':yamba3', ':yamba4', ':yamba5'
+include ':yamba1', ':yamba2', ':yamba3', ':yamba4', ':yamba5', ':yamba6'
