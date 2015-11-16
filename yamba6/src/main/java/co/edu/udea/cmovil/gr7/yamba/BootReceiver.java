@@ -15,7 +15,7 @@ public class BootReceiver extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        long interval= DEFAULT_INTERVAL;
+        long interval= DEFAULT_INTERVAL/45;
 
         PendingIntent operation = PendingIntent.getService(context, -1,
                 new Intent(context, RefreshService.class), PendingIntent.FLAG_UPDATE_CURRENT);
